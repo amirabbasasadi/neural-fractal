@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Fractal | Generate Amazing Fractals Using Complex Neural Networks</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="assets/style/github-dark.min.css">
+    <link rel="stylesheet" href="assets/style/app.css">
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+    <script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</head>
+<body>
+    <div id="app">
+        <div class="intro">
+            <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                  <a class="navbar-item has-text-white has-text-weight-bold is-size-4" href="#">
+                      Neural Fractal
+                  </a>
+              
+                  <a role="button" class="navbar-burger" aria-label="menu"  data-target="topbar">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                  </a>
+                </div>
+              
+                <div id="topbar" class="navbar-menu">
+                  <div class="navbar-start">
+                    <a href="#start" class="navbar-item has-text-white">
+                      Quick Start
+                    </a>
+              
+                    <a href="#gallery" class="navbar-item has-text-white">
+                      Gallery
+                    </a>
+        
+                    <a href="#about" class="navbar-item has-text-white">
+                        About
+                    </a>
+              
+                  </div>
+              
+                  <div class="navbar-end">
+                    <div class="navbar-item">
+                      <div class="buttons">
+                        <a target="_blank" href="https://github.com/amirabbasasadi/neural-fractal" class="button is-danger">
+                            <span class="icon">
+                                <i class="fab fa-github"></i>
+                              </span>
+                              <span class="has-text-weight-bold">GitHub</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+              
+<section class="intro-head">
+  <div class="columns is-centered">
+    <div class="column is-narrow intro-desc">
+        <p class="title has-text-white is-size-1">
+            Neural Fractal <span class="tag is-danger">0.1.0</span>
+          </p>
+          <p class="subtitle has-text-white">
+            Create Fractals Using Complex-Valued Neural Networks!
+          </p>
+        <div class="icon-text">
+            <span class="icon has-text-white">
+                <i class="fas fa-fire"></i>
+            </span>
+            <span class="has-text-white">Built on Top of PyTorch</span>
+        </div>
+        <div class="icon-text">
+            <span class="icon has-text-white">
+                <i class="fas fa-check-square"></i>
+            </span>
+            <span class="has-text-white">Define Dynamical Systems Using Complex-Valued Neural Networks</span>
+        </div>
+        <div class="icon-text">
+            <span class="icon has-text-white">
+                <i class="fas fa-microchip"></i>
+            </span>
+            <span class="has-text-white">GPU Support for Accelerated Sampling and Rendering</span>
+        </div>
+        <div class="buttons">
+            <a href="#start" class="button is-danger">
+                <span class="icon">
+                    <i class="fab fa-arrow-down"></i>
+                </span> 
+                <span class="has-text-weight-bold">Quick Start</span>
+            </a>
+            <a target="_blank" href="https://github.com/amirabbasasadi/neural-fractal" class="button is-primary">
+                <span class="icon">
+                    <i class="fab fa-github"></i>
+                </span>
+                  <span class="has-text-weight-bold">GitHub</span>
+            </a>
+          </div>
+          
+        
+    </div>
+    <div class="column is-narrow">
+<pre><code>import torch
+import torch.nn as nn
+import nfractal.nn as cvnn
+
+class NeuralDynamics(nn.Module):
+    def __init__(self):
+    super(NeuralDynamics, self).__init__()
+    self.net = nn.Sequential(
+        cvnn.Linear(1, 8),
+        nn.Tanh(),
+        cvnn.Linear(8, 8),
+        nn.Tanh(),
+        cvnn.Linear(8, 1))
+
+    def forward(self, z_k, s):
+        return self.net(z_k)**2 + s
+
+# sample the complex plane to plot the fractal
+from nfractal.samplers import UniformSampler
+dynamics = NeuralDynamics()
+sampler = UniformSampler(dynamics, image_size=(1600, 1200))
+image = sampler.sample(epochs=100)
+</code></pre>
+    </div>
+  </div>
+</section>
+        </div>
+        <div class="main-container">
+            <div class="container">
+                <div class="columns">
+                    <div class="column">
+                        <h2 class="is-size-3 has-text-centered">What is it all about?</h2>
+                        <p><strong>Fractals</strong> are visualizations of Chaos. They have infinite self-similar patterns. One way to generate fractals is by applying a complex function repeatedly on a set of points and keeping the points that do not diverge to infinity. Interestingly, Even dynamical systems constructed by simple functions in this way can generate amazing fractals. But what happens if instead of a simple function we use a complex valued neural network? Repeatedly applying a neural network is equivalent to a recurrent neural network which is able to model complicated non-linear dynamical systems. Reservoir computing has demonstrated even completely random RNNs can construct strange and interesting dynamics. <strong>Neural Fractal</strong> has been developed for creating fractals using CVNNs.</p>
+                    </div>
+                    <div class="column">
+                        <div class="card">
+                            <div class="card-image">
+                              <figure class="image is-square">
+                                <img src="assets/img/1.png" alt="Fractal">
+                              </figure>
+                            </div>
+                            <div class="card-content">
+                              <div class="content">
+                                A fractal generated by a complex valued neural network after pseudo-coloring
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    
+                    
+                </div>
+                
+                <div class="getting-started" id="start">
+                    <h2 class="has-text-centered is-size-3">Quick Start</h2>
+                    <div class="columns is-centered">
+                        <div class="column is-three-quarters">
+                            <h3 class="is-size-4">Installation</h3>
+                            <p>You can install the package using pip. Note you need PyTorch as a requirement.</p>
+<pre><code>pip install nfractal</code></pre>
+                        <h3 class="is-size-4">How does it work?</h3>
+                        <p>For a moment forget about complex neural networks. Let's generate a simple fractal.</p>
+                        <p>Given a complex number \(s \in \mathbb{C} \) and the complex function \( f_{s}(z) =  z^2 + s\)</p>
+                        <p>The point \(s\) is a member of the Mandelbrot set if the following iteration does not diverge to infinity:</p>
+                        <p>$$z_{k+1} = f_s(z_k)$$</p>
+                        <p>Where \( z_0 = 0\). We can implement the above dynamical system using a PyTorch module</p>
+<pre><code>import torch.nn as nn
+
+class Mandelbrot(nn.Module):
+    def forward(self, z_k, s):
+        return z_k**2 + s
+
+dynamics = Mandelbrot()
+</code></pre>
+<p>Now we can try to plot the members of Mandelbrot set in the complex plane. A simple way is to sample the complex plain uniformly, Then applying the above iteration a finite number of times say \(50\) and plot the samples whose abosolute value is less than a specific radius say \(2\). You can use the <code>UniformSampler</code> class to do so.</p>
+<pre><code>from nfractal.samplers import UniformSampler
+
+sampler = UniformSampler(dynamics, sample_size=2**17, img_size=(600, 800), threshold=2.0)</code></pre>
+<p>Now you may perform the sampling using <code>sampler</code>:</p>
+<pre><code>image = sampler.sample(epochs=100, max_iters=50, verbose=True)
+</code></pre>
+<p>Setting <code>verbose=True</code> will display the sampling process and acceptance rate of samples at each step. The output will be a PyTorch Tensor containing the image of size <code>(600 x 800 x 1)</code>.</p>
+<pre><code>import matplotlib.pyplot as plt
+plt.imshow(255-image, cmap='gray')
+</code></pre>    
+<p>After plotting the image using Matplotlib you will see something like this:</p>
+<figure class="fractal-example">
+    <img src="assets/img/madelbrot1.png" alt="Fractal">
+</figure>
+
+<p>It is easy to enhance the image a little by histogram equalization:</p>
+<pre><code>from nfractal.utils.enhancements import hist_equalizer
+improved_image = hist_equalizer(image)
+</code></pre>
+<p>The result seems much better:</p>
+<figure class="fractal-example">
+    <img src="assets/img/madelbrot2.png" alt="Fractal">
+</figure>
+<h3 class="is-size-4">Complex-Valued Neural Networks (CVNN)</h3>
+<p>Considering the previous example, we can use a CVNN as \(f_s(z)\). A CVNN is a neural networks with complex parameters that accepts complex inputs. That is \(f_s(z_k) = \mathrm{CVNN}_{\theta}(z_k,s)\) where \(\theta\) is the network's parameters. Now you can create define a neural dynamics. However your network needs complex layers and complex activation function. Some of the PyTorch's activation functions support complex inputs (e.g. <code>nn.Tanh</code>). Neural Fractal package tries to facilitate constructing complex layers and complex activation functions which will be improved over time. In the below example a random CVNN is defined using complex linear transformations.</p>
+<pre><code>import torch
+import torch.nn as nn
+import nfractal.nn as cvnn
+
+class NeuralDynamics(nn.Module):
+    def __init__(self):
+    super(NeuralDynamics, self).__init__()
+    self.net = nn.Sequential(
+        cvnn.Linear(1, 8),
+        nn.Tanh(),
+        cvnn.Linear(8, 8),
+        nn.Tanh(),
+        cvnn.Linear(8, 1))
+
+    def forward(self, z_k, s):
+        return self.net(z_k)**2 + s
+    
+torch.manual_seed(8) # to reproduce the same results
+neural_dynamics = NeuralDynamics()    
+</code></pre>
+<h3 class="is-size-4">GPU Accelerated Sampling and Rendering</h3>
+<p>Neural Fractal is CUDA friendly so you can leverage GPU devices to accelerate sampling and rendering.</p> 
+<pre><code>from nfractal.samplers import UniformSampler
+from nfractal.utils.enhancements import hist_equalizer
+
+sampler = UniformSampler(neural_dynamics, threshold=6, sample_size=2**19, img_size=(2400, 3200), device='cuda')
+# sample the complex plane
+image = sampler.sample(epochs=300, max_iters=50, verbose=True)
+</code></pre>
+<pre><code># apply histogram equalization
+image_eq = hist_equalizer(image)
+# convert the tensor to a numpy array
+image_np = image_eq.cpu().numpy()
+# diplay the image
+plt.imshow(255-image_np, cmap='gray')</code></pre>
+<p>The output looks scary :)</p>
+<figure class="fractal-example">
+    <img src="assets/img/example.png" alt="Fractal">
+</figure>
+You may like to colorize it using pseudo-coloring.
+</div>
+                </div>
+                <div class="gallery" id="gallery">
+                    <h2 class="has-text-centered is-size-3">Neural Arts Gallery</h2>
+                    <p class="has-text-centered">The following fractals have been generated by complex valued neural networks and colorized using pseudo-coloring techniques.</p>
+                    <div class="gallery-images">
+                        <div class="columns">
+                            <div class="column">
+                                <figure class="image is-square">
+                                    <a href="assets/gallery/1200/1.png" target="_blank"><img src="assets/gallery/500/1.png" alt="Fractal"></a>
+                                  </figure>
+                            </div>
+                            <div class="column">
+                                <figure class="image is-square">
+                                    <a href="assets/gallery/1200/2.png" target="_blank"><img src="assets/gallery/500/2.png" alt="Fractal"></a>
+                                  </figure>
+                            </div>
+                            <div class="column">
+                                <figure class="image is-square">
+                                    <a href="assets/gallery/1200/3.png" target="_blank"><img src="assets/gallery/500/3.png" alt="Fractal"></a>
+                                  </figure>
+                            </div>
+                            <div class="column">
+                                <figure class="image is-square">
+                                    <a href="assets/gallery/1200/4.png" target="_blank"><img src="assets/gallery/500/4.png" alt="Fractal"></a>
+                                  </figure>
+                            </div>
+                        </div>
+                        <div class="columns">
+                            <div class="column">
+                                <figure class="image is-square">
+                                    <a href="assets/gallery/1200/5.png" target="_blank"><img src="assets/gallery/500/5.png" alt="Fractal"></a>
+                                  </figure>
+                            </div>
+                            <div class="column">
+                                <figure class="image is-square">
+                                    <a href="assets/gallery/1200/6.png" target="_blank"><img src="assets/gallery/500/6.png" alt="Fractal"></a>
+                                  </figure>
+                            </div>
+                            <div class="column">
+                                <figure class="image is-square">
+                                    <a href="assets/gallery/1200/7.png" target="_blank"><img src="assets/gallery/500/7.png" alt="Fractal"></a>
+                                  </figure>
+                            </div>
+                            <div class="column">
+                                <figure class="image is-square">
+                                    <a href="assets/gallery/1200/8.png" target="_blank"><img src="assets/gallery/500/8.png" alt="Fractal"></a>
+                                  </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about", id="about">
+                    <h2 class="is-size-3 has-text-centered">About</h2>
+                    <div class="columns">
+                        <div class="column">
+                            <h3 class="is-size-4">Contributors</h3>
+                            <article class="media">
+                                <figure class="media-left">
+                                  <p class="image is-64x64">
+                                    <img class="is-rounded" src="assets/persons/amirabbas.jpeg">
+                                  </p>
+                                </figure>
+                                <div class="media-content">
+                                  <div class="content">
+                                    <p>
+                                      <strong>Amirabbas Asadi</strong> <small class="has-text-grey">amir137825@gmail.com</small>
+                                      <br>
+                                      Independent AI & Computer Science Researcher
+                                      <br>
+                                      Undergraduate Student of Computer Eng
+                                      <p class="buttons">
+                                        <a target="_blank" href="https://github.com/amirabbasasadi" class="button is-small">
+                                          <span class="icon is-small">
+                                            <i class="fab fa-github"></i>
+                                          </span>
+                                          <span class="has-text-weight-bold">GitHub</span>
+                                        </a>
+                                        <a target="_blank" href="https://www.linkedin.com/in/amirabbas-asadi/" class="button is-small is-link">
+                                            <span class="icon is-small">
+                                              <i class="fab fa-linkedin"></i>
+                                            </span>
+                                            <span class="has-text-weight-bold">LinkedIn</span>
+                                          </a>
+                                        
+                                      </p>
+                                    </p>
+                                    
+                                  </div>
+                                </div>
+                                <div class="media-right">
+                                </div>
+                              </article>
+                        </div>
+                        <div class="column">
+                            <h3 class="is-size-4">References</h3>
+                            <ul>
+                                <li>- Inspired by a <a target="_blank" href="https://yozh.org/2012/05/24/mset008/">blog post</a> by Xander</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            
+        </div>
+          
+        <div>
+        
+        </div>
+    
+          
+    </div>
+    <footer class="footer">
+        <div class="content has-text-centered">
+          <p>
+            The source code is licensed
+            <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+            is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+          </p>
+        </div>
+      </footer>
+    
+      <script src="https://kit.fontawesome.com/c38f85491f.js" crossorigin="anonymous"></script>
+      <script src="assets/scripts/highlight.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script src="assets/scripts/app.js"></script>
+    </body>
+</html>
