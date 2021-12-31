@@ -7,7 +7,7 @@ setup(
     name="nfractal",
     version="0.1.0",
     description="Create Fractals Using Complex-Valued Neural Networks!",
-    long_description="",
+    long_description="Create Fractals Using Complex-Valued Neural Networks!\n Visit the homepage for more information.",
     long_description_content_type="text/markdown",
     url="https://github.com/amirabbasasadi/neural-fractal.git",
     author="Amirabbas Asadi",
