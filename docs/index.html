@@ -130,7 +130,7 @@ class NeuralDynamics(nn.Module):
 # sample the complex plane to plot the fractal
 from nfractal.samplers import UniformSampler
 dynamics = NeuralDynamics()
-sampler = UniformSampler(dynamics, image_size=(1600, 1200))
+sampler = UniformSampler(dynamics, img_size=(1600, 1200))
 image = sampler.sample(epochs=100)
 </code></pre>
     </div>
