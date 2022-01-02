@@ -50,5 +50,8 @@ code{
 }
 .main-container, .intro-head{
     padding-left:15px;
-    padding-left:20px;
+    padding-right:15px;
+}
+.intro-video{
+    border-radius: 4px;
 }

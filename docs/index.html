@@ -110,30 +110,11 @@
         
     </div>
     <div class="column is-narrow">
-<pre><code>import torch
-import torch.nn as nn
-import nfractal.nn as cvnn
-
-class NeuralDynamics(nn.Module):
-    def __init__(self):
-      super(NeuralDynamics, self).__init__()
-      self.net = nn.Sequential(
-          cvnn.Linear(1, 8),
-          nn.Tanh(),
-          cvnn.Linear(8, 8),
-          nn.Tanh(),
-          cvnn.Linear(8, 1))
-
-    def forward(self, z_k, s):
-        return self.net(z_k)**2 + s
-
-# sample the complex plane to plot the fractal
-from nfractal.samplers import UniformSampler
-dynamics = NeuralDynamics()
-sampler = UniformSampler(dynamics, img_size=(1600, 1200))
-image = sampler.sample(epochs=100)
-</code></pre>
-    </div>
+<video class="intro-video" width="512" height="512" autoplay="autoplay" loop>
+  <source src="assets/videos/1.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video> 
+</div>
   </div>
 </section>
         </div>
