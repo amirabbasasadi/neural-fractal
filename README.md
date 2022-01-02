@@ -18,3 +18,8 @@ pip install nfractal
 
 ## Quick Start
 See the [Home Page](https://amirabbasasadi.github.io/neural-fractal/)
+
+
+## Features Under Development
+- Automatic pseudo-coloring
+- Gnerating zoom animations
