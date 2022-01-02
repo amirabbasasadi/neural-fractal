@@ -5,7 +5,7 @@ HERE = pathlib.Path(__file__).parent
 
 setup(
     name="nfractal",
-    version="0.1.0",
+    version="0.2.0",
     description="Create Fractals Using Complex-Valued Neural Networks!",
     long_description="Create Fractals Using Complex-Valued Neural Networks!\n Visit the homepage for more information.",
     long_description_content_type="text/markdown",
