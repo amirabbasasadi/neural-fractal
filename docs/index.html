@@ -195,41 +195,46 @@ import torch.nn as nn
 import nfractal.nn as cvnn
 
 class NeuralDynamics(nn.Module):
-    def __init__(self):
-      super(NeuralDynamics, self).__init__()
-      self.net = nn.Sequential(
-          cvnn.Linear(1, 8),
-          nn.Tanh(),
-          cvnn.Linear(8, 8),
-          nn.Tanh(),
-          cvnn.Linear(8, 1))
+  def __init__(self):
+    super(NeuralDynamics, self).__init__()
 
-    def forward(self, z_k, s):
-        return self.net(z_k)**2 + s
+    self.net = nn.Sequential(cvnn.Linear(1, 6),
+                             nn.Tanh(),
+                             cvnn.Linear(6, 6),
+                             nn.Tanh(),
+                             cvnn.Linear(6, 1))
+  
+  def forward(self, z_k, s):
+    return self.net(z_k)**3 + s
     
-torch.manual_seed(8) # to reproduce the same results
+torch.manual_seed(33) # to reproduce the same results
 neural_dynamics = NeuralDynamics()    
 </code></pre>
 <h3 class="is-size-4">GPU Accelerated Sampling and Rendering</h3>
 <p>Neural Fractal is CUDA friendly so you can leverage GPU devices to accelerate sampling and rendering.</p> 
 <pre><code>from nfractal.samplers import UniformSampler
-from nfractal.utils.enhancements import hist_equalizer
 
-sampler = UniformSampler(neural_dynamics, threshold=6, sample_size=2**19, img_size=(2400, 3200), device='cuda')
-# sample the complex plane
-image = sampler.sample(epochs=300, max_iters=50, verbose=True)
+sampler = UniformSampler(neural_dynamics, img_size=(1200, 1200), sample_size=2**19,
+                         device='cuda', zoom=10.0, center=(0.0, 0.0))
+
+image = sampler.sample(epochs=100, verbose=True)
 </code></pre>
-<pre><code># apply histogram equalization
-image_eq = hist_equalizer(image)
-# convert the tensor to a numpy array
-image_np = image_eq.cpu().numpy()
-# diplay the image
-plt.imshow(255-image_np, cmap='gray')</code></pre>
-<p>The output looks scary :)</p>
+<p>Before displaying the result, Don't forget to convert the image into a cpu tensor using <code>image.cpu()</code>. The output looks amazing :)</p>
 <figure class="fractal-example">
-    <img src="assets/img/example.png" alt="Fractal">
-</figure>
-You may like to colorize it using pseudo-coloring.
+    <img src="assets/img/ex1.png" alt="Fractal">
+</figure><br>
+<p>You can zoom on the image as you like by changing the <code>zoom</code> and <code>center</code> parameters:</p>
+<pre><code>sampler = UniformSampler(neural_dynamics, img_size=(1200, 1200), sample_size=2**19,
+                         device='cuda', zoom=1.0, center=(0.0, 0.0))
+
+image = sampler.sample(epochs=100, verbose=True)
+</code></pre>
+<p>And the result:</p>
+<figure class="fractal-example">
+  <img src="assets/img/ex2.png" alt="Fractal">
+</figure><br>
+
+<p>You may like to colorize it using pseudo-coloring.</p>
 </div>
                 </div>
                 <div class="gallery" id="gallery">
