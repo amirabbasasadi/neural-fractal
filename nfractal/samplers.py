@@ -15,7 +15,7 @@ class Sampler():
     This class samples from complex plane uniformly
 """
 class UniformSampler(Sampler):
-    def __init__(self, model, sample_size=2**17, img_size=(512, 512), threshold=2.0, t=1.2, batch_size=1,  device='cpu'):
+    def __init__(self, model, sample_size=2**17, img_size=(512, 512), threshold=2.0, center=(0.0, 0.0), zoom=1.0, batch_size=1,  device='cpu'):
         """
             Initialize Uniform Sampler
             Inputs:
@@ -23,7 +23,8 @@ class UniformSampler(Sampler):
                 sample_size: number of samples to generate at each iteration
                 img_size: size of image to generate, a tuple (height, width)
                 threshold: threshold to decide whether to keep a point
-                t: height of the complex plane to sample from
+                zoom: zoom factor
+                center: center of the image a tuple (x, y)
                 batch_size: number of batches of samples, for cpu device 1 is recommended
                 device: device to use, can be cpu or cuda
                 verbose: whether to print progress
@@ -31,9 +32,12 @@ class UniformSampler(Sampler):
         self.n = sample_size
         self.height = img_size[0]
         self.width = img_size[1]
+        self.center_x = center[0]
+        self.center_y = center[1]
+        self.aspect_ratio = self.width/self.height
         self.sample_size = sample_size
         self.batch_size = batch_size
-        self.t = t
+        self.zoom = zoom
         self.threshold = threshold
         self.device = device
         self.model = model.to(device)
@@ -49,10 +53,13 @@ class UniformSampler(Sampler):
             Outputs:
                 image: image of the fractal
         """
-        # shifting and rescale the points
-        p = 0.5*(self.width + self.height*1.0j + (self.height/self.t)*z)
-        # find corresponding pixels
-        pixels = self.width*torch.floor(p.imag) + torch.floor(p.real)
+        # shifting and rescaling the points
+        z.real = z.real + 0.5*self.zoom*self.aspect_ratio - self.center_x
+        z.imag = z.imag + 0.5*self.zoom - self.center_y
+        z = self.height*z/self.zoom
+
+         # find corresponding pixels
+        pixels = self.width*torch.floor(z.imag) + torch.floor(z.real)
         # counting the number of points in each pixel
         hist = torch.histc(pixels, bins=self.height*self.width, min=0, max=self.height*self.width-1)
         return hist
@@ -81,10 +88,12 @@ class UniformSampler(Sampler):
                 z = torch.view_as_complex(z)
                 s = torch.view_as_complex(s)
                 # sampling the real part
-                s.real.uniform_(-self.t*self.width/self.height,
-                                self.t*self.width/self.height)
+                s.real.uniform_(self.center_x - 0.5*self.zoom*self.aspect_ratio,
+                                self.center_x + 0.5*self.zoom*self.aspect_ratio)
                 # sampling the imaginary part
-                s.imag.uniform_(-self.t, self.t)
+                s.imag.uniform_(self.center_y - 0.5*self.zoom,
+                                self.center_y + 0.5*self.zoom)
+                # applying the dynamics iteratively
                 for i in range(max_iters):
                     if z.dim() < 3:
                         z = z.unsqueeze(2)
@@ -106,7 +115,7 @@ class UniformSampler(Sampler):
 
         # reshaping to original image size
         image = image.view(self.height, self.width)
-        # flipping the imaginary part
+        # flipping the imaginary axis
         image = torch.flip(image, dims=[0])
         return image
 
