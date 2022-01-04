@@ -47,5 +47,7 @@ class ColorTransfer():
         result_lab = result_lab.permute(1, 2, 0)
         # convert back to rgb
         result_rgb = lab_to_rgb(result_lab)
+        # clamping the result
+        result_rgb = torch.clamp(result_rgb, 0.0, 1.0)
         # reshapeing image to original shape
         return result_rgb
