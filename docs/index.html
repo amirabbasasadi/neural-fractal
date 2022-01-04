@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural Fractal | A Visual Exploration of Neural Dynamical Systems</title>
+    <title>NeuralFractal | A Visual Exploration of Neural Dynamical Systems</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="assets/style/github-dark.min.css">
     <link rel="stylesheet" href="assets/style/app.css">
@@ -24,7 +24,7 @@
             <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand">
                   <a class="navbar-item has-text-white has-text-weight-bold is-size-4" href="#">
-                      Neural Fractal
+                      NeuralFractal
                   </a>
               
                   <a role="button" class="navbar-burger" aria-label="menu"  data-target="topbar">
@@ -69,7 +69,7 @@
   <div class="columns is-centered">
     <div class="column is-narrow intro-desc">
         <p class="title has-text-white is-size-1">
-            Neural Fractal <span class="tag is-danger">0.3.0</span>
+            NeuralFractal <span class="tag is-danger">0.3.0</span>
           </p>
           <p class="subtitle has-text-white">
             A Visual Exploration of Neural Dynamical Systems
@@ -123,7 +123,7 @@ Your browser does not support the video tag.
                 <div class="columns">
                     <div class="column">
                         <h2 class="is-size-3 has-text-centered">What is it all about?</h2>
-                        <p>Neural Fractal has been developed for exploring the properties of dynamical systems defined by neural networks and specially complex-valued neural networks. Fractals are visualizations of Chaos. They have infinite self-similar patterns. One way to generate fractals is by applying a function repeatedly on a set of points and keeping the points that do not diverge to infinity. Interestingly, Even dynamical systems constructed by simple functions in this way can generate amazing fractals. But what happens if instead of a simple function we use a neural network? Repeatedly applying a neural network is equivalent to a recurrent neural network which is able to model complicated non-linear dynamical systems. Reservoir computing has demonstrated even completely random RNNs can construct strange and interesting dynamics. This package is an attempt to explore the strange and beautiful world of fractals.</p>  
+                        <p>NeuralFractal has been developed for exploring the properties of dynamical systems defined by neural networks and specially complex-valued neural networks. Fractals are visualizations of Chaos. They have infinite self-similar patterns. One way to generate fractals is by applying a function repeatedly on a set of points and keeping the points that do not diverge to infinity. Interestingly, Even dynamical systems constructed by simple functions in this way can generate amazing fractals. But what happens if instead of a simple function we use a neural network? Repeatedly applying a neural network is equivalent to a recurrent neural network which is able to model complicated non-linear dynamical systems. Reservoir computing has demonstrated even completely random RNNs can construct strange and interesting dynamics. This package is an attempt to explore the strange and beautiful world of fractals.</p>  
                       </div>
                     <div class="column">
                         <div class="card">
@@ -189,7 +189,7 @@ improved_image = hist_equalizer(image)
     <img src="assets/img/madelbrot2.png" alt="Fractal">
 </figure>
 <h3 class="is-size-4">Complex-Valued Neural Networks (CVNN)</h3>
-<p>Considering the previous example, we can use a CVNN as \(f_s(z)\). A CVNN is a neural networks with complex parameters that accepts complex inputs. That is \(f_s(z_k) = \mathrm{CVNN}_{\theta}(z_k,s)\) where \(\theta\) is the network's parameters. Now you can create define a neural dynamics. However your network needs complex layers and complex activation function. Some of the PyTorch's activation functions support complex inputs (e.g. <code>nn.Tanh</code>). Neural Fractal package tries to facilitate constructing complex layers and complex activation functions which will be improved over time. In the below example a random CVNN is defined using complex linear transformations.</p>
+<p>Considering the previous example, we can use a CVNN as \(f_s(z)\). A CVNN is a neural networks with complex parameters that accepts complex inputs. That is \(f_s(z_k) = \mathrm{CVNN}_{\theta}(z_k,s)\) where \(\theta\) is the network's parameters. Now you can create define a neural dynamics. However your network needs complex layers and complex activation function. Some of the PyTorch's activation functions support complex inputs (e.g. <code>nn.Tanh</code>). NeuralFractal tries to facilitate constructing complex layers and complex activation functions which will be improved over time. In the below example a random CVNN is defined using complex linear transformations.</p>
 <pre><code>import torch
 import torch.nn as nn
 import nfractal.nn as cvnn
@@ -211,7 +211,7 @@ torch.manual_seed(33) # to reproduce the same results
 neural_dynamics = NeuralDynamics()    
 </code></pre>
 <h3 class="is-size-4">GPU Accelerated Sampling and Rendering</h3>
-<p>Neural Fractal is CUDA friendly so you can leverage GPU devices to accelerate sampling and rendering.</p> 
+<p>NeuralFractal is CUDA friendly so you can leverage GPU devices to accelerate sampling and rendering.</p> 
 <pre><code>from nfractal.samplers import UniformSampler
 
 sampler = UniformSampler(neural_dynamics, img_size=(1200, 1200), sample_size=2**19,
